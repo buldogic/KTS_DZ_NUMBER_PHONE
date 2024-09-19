@@ -1,29 +1,36 @@
-
-.root {
+.container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 10px;
+}
+
+.code {
+  text-align: center;
+  gap: 5px;
   position: relative;
-  width: 77px;
-  height: 40px;
   border: 1px solid #afadb5;
+  padding: 9px 6px;
   border-radius: 8px;
   cursor: pointer;
   z-index: 1;
+
+  &:hover {
+    border: 1px solid #3E66FB;
+  }
+}
+.code:focus {
+  border: 1px solid #3E66FB;
 }
 
-.root:focus {
-  border-color: blue;
-  outline: none;
-}
 .input {
   background: white;
-  width: 50px;
+  width: 40px;
+  height: 20px;
   border: none;
   outline: none;
   box-sizing: border-box;
   font-size: 16px;
   color: black;
+  cursor: pointer;
 
   &:focus {
     color: #151411;
@@ -67,11 +74,6 @@
   }
 }
 
-.codeCountry {
-  display: flex;
-  gap: 10px;
-  
-}
 
 .number {
   display: flex;
@@ -98,4 +100,10 @@
     color: #151411;
     opacity: 0.8;
   }
+}
+
+.icon {
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
 }

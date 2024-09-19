@@ -40,8 +40,11 @@ export class FormPhoneStore {
     const nextDigit = this.digits.value[index + 1];
 
     digit.value.change(value);
-
     if (index === this.digitCount - 1) return;
+
+    if (index === 0) {
+       return digit.focus();
+    }
 
     return nextDigit.focus();
   }

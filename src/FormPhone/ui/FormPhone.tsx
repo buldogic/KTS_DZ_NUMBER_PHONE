@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite'
-
 import * as React from 'react'
 import { CountryCode } from '../../FormPhone';
 import DropImg from '../../img/DropImg.png'
@@ -14,6 +13,7 @@ const FormPhone = () => {
   const rootRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
+
     const handleClick = (e: MouseEvent) => {
       if (!rootRef.current) return;
 
@@ -38,6 +38,7 @@ const FormPhone = () => {
       onClick={() => {
         setIsOpen(!isOpen);
         phoneModel.changeCode(value);
+        phoneModel.changeDigitNext('', 0);
       }}
       key={key}
     >
@@ -47,14 +48,13 @@ const FormPhone = () => {
   
   });
 
-  return  <div className={s.codeCountry}>
-  <div className={s.root} ref={rootRef}>
-          <input className={s.input} value={phoneModel.code.value} readOnly />
-          <img width={10} height={10} className={s.icon} src={DropImg} alt="Dropdown arrow"/>
-          {isOpen && <div className={s.menuCode}>{countryCode}</div>}
-
-    </div>
-          {phoneModel.digits.value.map((digit, index) => (
+  return  <div className={s.container}>
+            <div className={s.code} ref={rootRef}>
+              <input className={s.input} value={phoneModel.code.value} readOnly  />
+              <img className={s.icon} src={DropImg} alt="Dropdown arrow"/>
+              {isOpen && <div className={s.menuCode}>{countryCode}</div>}
+            </div>
+            {phoneModel.digits.value.map((digit, index) => (
               <input
                 key={index}
                 className={s.number}
@@ -69,8 +69,8 @@ const FormPhone = () => {
                   }
                 }}
               />
-          ))}
-         </div> 
+            ))}
+          </div> 
 }
 
 export default observer(FormPhone)
