@@ -12,6 +12,8 @@ const FormPhone = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement | null>(null);
 
+
+
   React.useEffect(() => {
 
     const handleClick = (e: MouseEvent) => {
@@ -28,7 +30,7 @@ const FormPhone = () => {
     return () => {
       window.document.removeEventListener('click', handleClick);
     };
-  }, [setIsOpen, phoneModel.code.value]);
+  }, [ phoneModel.code.value ]);
 
   const countryCode = Object.entries(CountryCode).map((option) => {
     const [key, value] = option;
@@ -38,15 +40,32 @@ const FormPhone = () => {
       onClick={() => {
         setIsOpen(!isOpen);
         phoneModel.changeCode(value);
-        phoneModel.changeDigitNext('', 0);
       }}
       key={key}
     >
       {value}
     </div>
     );
-  
   });
+
+  const InputNumber = phoneModel.digits.value.map((digit, index) => {
+
+   return phoneModel.onInput(digit.digitValue) ? <span key={index}> {digit.digitValue} </span> :  (
+    <input
+    key={index}
+    className={s.number}
+    maxLength={1}
+    value={digit.digitValue === '*' ? '' : digit.digitValue}
+    onChange={(e) => phoneModel.changeDigitNext(e.target.value , index)}
+    ref={(ref) => digit.ref.change(ref)}
+    onKeyDownCapture={(e) => {
+      if (e.key === 'Backspace') {
+        phoneModel.changeDigitPrev(index);
+      }
+    }}
+  />
+   )
+  })
 
   return  <div className={s.container}>
             <div className={s.code} ref={rootRef}>
@@ -54,22 +73,10 @@ const FormPhone = () => {
               <img className={s.icon} src={DropImg} alt="Dropdown arrow"/>
               {isOpen && <div className={s.menuCode}>{countryCode}</div>}
             </div>
-            {phoneModel.digits.value.map((digit, index) => (
-              <input
-                key={index}
-                className={s.number}
-                maxLength={1}
-                value={digit.digitValue}
-                onChange={(e) => phoneModel.changeDigitNext(e.target.value , index)}
-                ref={(ref) => digit.ref.change(ref)}
-                onFocus={() => digit.focus()}
-                onKeyDownCapture={(e) => {
-                  if (e.key === 'Backspace') {
-                    phoneModel.changeDigitPrev(index);
-                  }
-                }}
-              />
-            ))}
+               {InputNumber}
+            <div>
+            <button className={s.btn} onClick={() => phoneModel.onChangeValue()}>Results</button>
+            </div>
           </div> 
 }
 

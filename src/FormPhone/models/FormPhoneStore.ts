@@ -1,35 +1,40 @@
-import { action, computed, makeObservable } from 'mobx';
-import { CountryCode } from '../types';
+import { action, makeObservable } from 'mobx';
+import { CountryCode, Mask } from '../types';
 import { DigitModel } from './DigitModel';
 import { ValueModel } from './ValueModel';
 
 export class FormPhoneStore {
   readonly code: ValueModel<CountryCode>;
+  readonly mask: ValueModel<string>;
   readonly digits: ValueModel<DigitModel[]>;
 
-  constructor(code: CountryCode = CountryCode.RU, digits: DigitModel[] = []) {
+  constructor(code: CountryCode = CountryCode.RU, digits: DigitModel[] = Mask[CountryCode.RU].split('').map((digit) => new DigitModel(digit)), mask: string = Mask[CountryCode.RU]) {
     this.code = new ValueModel(code);
     this.digits = new ValueModel<DigitModel[]>(digits);
+    this.mask = new ValueModel(mask);
 
     makeObservable(this, {
-      digitCount: computed,
       changeCode: action,
       changeDigitNext: action.bound,
       changeDigitPrev: action.bound,
+      onInput: action.bound,
     });
+
   }
 
-  get digitCount(): number {
-    return 10;
+  onInput(value: string): boolean {
+    return value ===  '(' || value == ')' || value === '-'
   }
 
   changeCode(code: CountryCode) {
     this.code.change(code);
+    this.mask.change(Mask[code]);
+    this.digits.reset();
 
     const newDigitArr = [];
 
-    for (let i = 0; i < this.digitCount; i++) {
-      newDigitArr.push(new DigitModel());
+    for (let i = 0; i < this.mask.value.length; i = i + 1) {
+      newDigitArr.push(new DigitModel(!this.onInput(this.mask.value[i]) ? '' : this.mask.value[i]));
     }
 
     this.digits.change(newDigitArr);
@@ -40,26 +45,34 @@ export class FormPhoneStore {
     const nextDigit = this.digits.value[index + 1];
 
     digit.value.change(value);
-    if (index === this.digitCount - 1) return;
+    if (index === this.mask.value.length - 1) return;
 
-    if (index === 0) {
-       return digit.focus();
+    if (digit.value.value !== '') {
+      this.changeDigitNext(nextDigit.value.value, index + 1);
     }
-
+    this.digits.value[index].change(value);
     return nextDigit.focus();
+
+
   }
   changeDigitPrev(index: number) {
     const prevDigit = this.digits.value[index - 1];
-    const digit = this.digits.value[index];
-
-    if (digit.value.value !== '') {
-      return digit.value.reset();
-    }
 
     if (index === 0) return;
-
+    
+    
+    if (this.onInput(prevDigit.value.value)){
+      this.changeDigitPrev(index -1)
+    }
+    
+    this.digits.value[index].value.reset()
     prevDigit.value.reset();
     return prevDigit.focus();
+  }
+
+  onChangeValue() {
+    const value = `${this.code.value}${this.digits.value.map((digit) => digit.digitValue !== '' ? digit.digitValue :'*'  ).join('')}`;
+    console.log(value);
   }
 }
 

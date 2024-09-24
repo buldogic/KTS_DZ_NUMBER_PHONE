@@ -25,4 +25,8 @@ export class DigitModel {
   change(value: string) {
     this.value.change(value);
   }
+
+  
+
+
 }
