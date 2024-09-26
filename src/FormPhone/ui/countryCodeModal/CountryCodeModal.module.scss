@@ -1,10 +1,4 @@
-.container {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.code {
+.button {
   text-align: center;
   gap: 5px;
   position: relative;
@@ -19,7 +13,7 @@
     border: 1px solid #3E66FB;
   }
 }
-.code:focus {
+.button:focus {
   border: 1px solid #3E66FB;
 }
 

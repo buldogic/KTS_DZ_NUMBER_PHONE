@@ -37,9 +37,9 @@ export class FormPhoneStore {
     const newDigitArr = [];
 
     for (let i = 0; i < this.mask.value.length; i = i + 1) {
-      newDigitArr.push(new DigitModel(!this.onInput(this.mask.value[i]) ? '' : this.mask.value[i]));
+      newDigitArr.push(new DigitModel(!this.onInput(this.mask.value[i]) ? '*' : this.mask.value[i]));
     }
-
+    
     this.digits.change(newDigitArr);
   }
 

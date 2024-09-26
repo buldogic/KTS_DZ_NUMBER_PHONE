@@ -32,7 +32,7 @@ const CountryCodeModal: React.FC<Props> = ({store}) => {
     );
   });
 
-return  <button className={s.code} onClick={() => setIsOpen(!isOpen)} >
+return  <button className={s.button} onClick={() => setIsOpen(!isOpen)} >
           <input className={s.input} value={value} readOnly  />
           <img className={s.icon} src={DropImg} alt="Dropdown arrow"/>
           {isOpen && <div className={s.menuCode}>{countryCode}</div>}
