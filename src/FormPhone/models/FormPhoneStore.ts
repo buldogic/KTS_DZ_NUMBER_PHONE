@@ -50,7 +50,7 @@ export class FormPhoneStore {
     digit.value.change(value);
     if (index === this.mask.value.length - 1) return;
 
-    if (digit.value.value !== '') {
+    if (nextDigit.ref.value === null) {
       this.changeDigitNext(nextDigit.value.value, index + 1);
     }
     this.digits.value[index].change(value);
@@ -61,15 +61,15 @@ export class FormPhoneStore {
     const digit = this.digits.value[index];
 
     if (index === 0) return;
-    
-    if (digit.value.value !== '*') {
-      this.digits.value[index].value.reset();
-    }
-    
-    if (this.onInput(prevDigit.value.value)) {
+
+    if (prevDigit.ref.value === null) {
       this.changeDigitPrev(index - 1);
     }
-    
+
+    if (index === this.mask.value.length - 1 && digit.value.value !== '*') {
+      digit.value.reset();
+      return digit.focus();
+    }
     prevDigit.value.reset();
     return prevDigit.focus();
   }

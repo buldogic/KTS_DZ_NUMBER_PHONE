@@ -56,7 +56,9 @@ const FormPhone = () => {
     className={s.number}
     maxLength={1}
     value={digit.digitValue === '*' ? '' : digit.digitValue}
-    onChange={(e) => phoneModel.changeDigitNext(e.target.value , index)}
+    onChange={(e) => {
+      if (/[^0-9]$/.test(e.target.value)) return
+      phoneModel.changeDigitNext(e.target.value , index)}}
     ref={(ref) => digit.ref.change(ref)}
     onKeyDownCapture={(e) => {
       if (e.key === 'Backspace') {
