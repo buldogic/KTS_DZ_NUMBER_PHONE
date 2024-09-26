@@ -1,10 +1,11 @@
 import { action, makeObservable } from 'mobx';
 import { CountryCode, Mask } from '../types';
+import { CountryCodeModel } from './CountryCodeModel';
 import { DigitModel } from './DigitModel';
 import { ValueModel } from './ValueModel';
 
 export class FormPhoneStore {
-  readonly code: ValueModel<CountryCode>;
+  readonly code: CountryCodeModel<CountryCode>;
   readonly mask: ValueModel<string>;
   readonly digits: ValueModel<DigitModel[]>;
 
@@ -13,7 +14,7 @@ export class FormPhoneStore {
     digits: DigitModel[] = Mask[CountryCode.RU].split('').map((digit) => new DigitModel(digit)),
     mask: string = Mask[CountryCode.RU],
   ) {
-    this.code = new ValueModel(code);
+    this.code = new CountryCodeModel(code);
     this.digits = new ValueModel<DigitModel[]>(digits);
     this.mask = new ValueModel(mask);
 
@@ -30,7 +31,6 @@ export class FormPhoneStore {
   }
 
   changeCode(code: CountryCode) {
-    this.code.change(code);
     this.mask.change(Mask[code]);
     this.digits.reset();
 
