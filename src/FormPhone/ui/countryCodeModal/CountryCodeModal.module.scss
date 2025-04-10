@@ -1,13 +1,13 @@
 .button {
-  text-align: center;
-  gap: 5px;
   position: relative;
-  background-color: white;
-  border: 1px solid #afadb5;
-  padding: 9px 6px;
-  border-radius: 8px;
-  cursor: pointer;
   z-index: 1;
+  gap: 5px;
+  padding: 9px 6px;
+  border: 1px solid #afadb5;
+  border-radius: 8px;
+  background-color: white;
+  text-align: center;
+  cursor: pointer;
 
   &:hover {
     border: 1px solid #3E66FB;
@@ -18,15 +18,15 @@
 }
 
 .input {
-  background: white;
-  width: 40px;
   height: 20px;
+  width: 40px;
   border: none;
   outline: none;
-  box-sizing: border-box;
-  font-size: 16px;
   color: black;
+  background: white;
+  font-size: 16px;
   cursor: pointer;
+  box-sizing: border-box;
 
   &:focus {
     color: #151411;
@@ -45,17 +45,17 @@
 
 .menuCode {
   position: absolute;
-  background: #ffffff;
+  top: calc(100% + 8px);
+  width: 100%;
   border-radius: 5px;
   box-shadow: 0px 4px 10px rgba(#000, 0.25);
-  width: 100%;
-  top: calc(100% + 8px);
+  background: #ffffff;
 }
 
 .item {
-  padding: 14px 12px;
   display: flex;
   align-items: center;
+  padding: 14px 12px;
   color: #000000;
   cursor: pointer;
   &:hover {
@@ -71,7 +71,7 @@
   }
 }
 .icon {
-  width: 10px;
   height: 10px;
+  width: 10px;
   cursor: pointer;
 }

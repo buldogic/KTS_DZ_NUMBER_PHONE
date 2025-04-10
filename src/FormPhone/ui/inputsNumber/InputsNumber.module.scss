@@ -2,13 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
+  padding: 10px 0px 8px 10px;
   height: 40px;
+  width: 32px;
   border: 1px solid #afadb5;
   border-radius: 8px;
-  padding: 10px 0px 8px 10px;
-  cursor: pointer;
   outline: none;
+  cursor: pointer;
   box-sizing: border-box;
 
   &:focus {
