@@ -1,19 +1,12 @@
 const path = require('path');
-
 const buildPath = path.resolve(__dirname, 'build');
-
 const isProd = process.env.NODE_ENV === 'production';
 
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const TsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-
-
-
 
 const srcPath = path.resolve(__dirname, 'src');
 
@@ -46,19 +39,24 @@ const getSettingsForStyles = (withModules = false) => {
 module.exports = {
   mode: isProd ? 'production' : 'development',
   entry: path.resolve(__dirname, './src/main.tsx'),
-  target: !isProd ? 'web' : 'browserslist',
-  devtool: isProd ? 'hidden-source-map' : 'eval-source-map',
+  target: ['web', 'es5'],
+  devtool: isProd ? 'source-map' : 'eval-source-map',
   output: {
     path: buildPath,
-    filename: 'bundle.js',
-    publicPath: isProd ? '/number-phone/' : '/',
+    filename: isProd ? '[name].[contenthash].js' : 'bundle.js',
+    publicPath: isProd ? '/KTS_dz_number_phone/' : '/',
+    clean: true, // Webpack 5 feature - cleans output directory
   },
   devServer: {
     host: '127.0.0.1',
     port: 9000,
-    static: path.resolve(__dirname, 'public'),
+    static: {
+      directory: path.resolve(__dirname, 'public'),
+    },
     hot: true,
     historyApiFallback: true,
+    open: true,
+    compress: true,
   },
   module: {
     rules: [
@@ -93,19 +91,37 @@ module.exports = {
   plugins: [
     new Dotenv({
       path: '.env.local',
+      safe: false,
+      systemvars: true,
     }),
     new HtmlWebpackPlugin({
       template: path.join(srcPath, 'index.html'),
+      minify: isProd,
     }),
     !isProd && new ReactRefreshWebpackPlugin(),
     isProd &&
       new MiniCssExtractPlugin({
-        filename: '[name]-[hash].css',
+        filename: '[name].[contenthash].css',
       }),
-    new TsCheckerPlugin(),
+    new TsCheckerPlugin({
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
+    }),
   ].filter(Boolean),
   resolve: {
     extensions: ['.tsx', '.jsx', '.js', '.ts'],
-    alias: {},
+    alias: {
+      '@': srcPath,
+      '@components': path.resolve(srcPath, 'components'),
+      '@FormPhone': path.resolve(srcPath, 'FormPhone'),
+      '@assets': path.resolve(srcPath, 'img'),
+      '@styles': path.resolve(srcPath, 'styles'),
+      '@utils': path.resolve(srcPath, 'utils'),
+      '@types': path.resolve(srcPath, 'types'),
+    },
   },
 };
