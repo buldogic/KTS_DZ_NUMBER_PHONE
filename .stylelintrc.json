@@ -1,0 +1,121 @@
+{
+  "extends": ["stylelint-config-recess-order"],
+  "plugins": ["stylelint-order", "stylelint-scss"],
+  "overrides": [
+    {
+      "files": ["**/*.scss"],
+      "customSyntax": "postcss-scss"
+    }
+  ],
+  "rules": {
+    "order/properties-order": [
+      [
+        "position",
+        "inset",
+        "top",
+        "right",
+        "bottom",
+        "left",
+        "z-index",
+
+        "display",
+        "flex-flow",
+        "flex-direction",
+        "flex-wrap",
+        "flex",
+        "flex-grow",
+        "flex-shrink",
+        "flex-basis",
+        "grid",
+        "grid-template-columns",
+        "grid-template-rows",
+        "grid-template-areas",
+        "grid-auto-flow",
+        "grid-auto-rows",
+        "grid-auto-columns",
+        "align-items",
+        "align-content",
+        "align-self",
+        "justify-items",
+        "justify-content",
+        "justify-self",
+        "gap",
+        "row-gap",
+        "column-gap",
+
+        "margin",
+        "margin-block",
+        "margin-inline",
+        "margin-top",
+        "margin-right",
+        "margin-bottom",
+        "margin-left",
+        "padding",
+        "padding-block",
+        "padding-inline",
+        "padding-top",
+        "padding-right",
+        "padding-bottom",
+        "padding-left",
+
+        "height",
+        "min-height",
+        "max-height",
+        "width",
+        "min-width",
+        "max-width",
+
+        "border",
+        "border-width",
+        "border-style",
+        "border-color",
+        "border-radius",
+        "outline",
+        "outline-width",
+        "outline-style",
+        "outline-color",
+        "outline-offset",
+        "box-shadow",
+
+        "color",
+        "background",
+        "background-color",
+        "background-image",
+        "background-position",
+        "background-size",
+        "background-repeat",
+
+        "font",
+        "font-family",
+        "font-size",
+        "font-weight",
+        "font-style",
+        "text-align",
+        "text-transform",
+        "text-decoration",
+        "text-overflow",
+        "white-space",
+
+        "cursor",
+        "opacity",
+        "visibility",
+
+        "overflow",
+        "overflow-x",
+        "overflow-y",
+
+        "transform",
+        "transition"
+      ],
+      {
+        "unspecified": "bottomAlphabetical"
+      }
+    ],
+    "order/properties-alphabetical-order": null,
+    "scss/at-rule-no-unknown": true,
+    "block-no-empty": true,
+    "color-no-invalid-hex": true,
+    "no-empty-source": null,
+    "at-rule-no-unknown": null
+  }
+}

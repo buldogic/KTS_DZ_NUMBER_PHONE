@@ -1,4 +1,4 @@
-import { CountryCode } from "./Enam";
+import { CountryCode } from "./CountryCode";
 
 export type Nullable<Value> = Value | null;
 
